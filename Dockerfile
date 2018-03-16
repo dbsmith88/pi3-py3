@@ -32,8 +32,9 @@ RUN cd /tmp/gdal-${GDAL_VERSION} && \
 
 RUN rm /tmp/gdal-${GDAL_VERSION} -rf
 
+RUN apt-get -y install libgeos-dev
 RUN pip3 install uwsgi shapely
-RUN apt-get -y install libgeos-dev python-numpy python scipy
+RUN apt-get -y install python-numpy python scipy
 
 # Copy requirements to docker image
 COPY requirements.txt /tmp/requirements.txt

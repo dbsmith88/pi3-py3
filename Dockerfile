@@ -5,8 +5,12 @@ FROM python:3
 WORKDIR /src
 
 # Update environment
-RUN apt-get -qq update
-RUN apt-get -qq -y install curl cython
+RUN apt-get update && apt-get -y install \
+    curl \
+    cython \
+    libgeos-dev \
+    python-numpy \
+    python-scipy
 
 ENV GDAL_VERSION=2.2.1
 
@@ -32,14 +36,10 @@ RUN cd /tmp/gdal-${GDAL_VERSION} && \
 
 RUN rm /tmp/gdal-${GDAL_VERSION} -rf
 
-RUN apt-get -y install libgeos-dev
 RUN pip3 install uwsgi shapely
-RUN apt-get -y install python-numpy python-scipy
 
 # Copy requirements to docker image
 COPY requirements.txt /tmp/requirements.txt
 
 # Pip install from requirements file
 RUN pip3 install -r /tmp/requirements.txt
-
-
